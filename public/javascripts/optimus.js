@@ -26,16 +26,17 @@ var receiveMessage =  function (event) {
         return;
     } else {
         ctrlElements();
-        setCookie(data.transaction_id, cookieExp);
+        setCookie(event.data.transaction_id, cookieExp);
     }
 }
 
 // set an optimus cookie with transaction_id and expiration
 var setCookie = function(cvalue, exdays) {
+    console.log("Setting Cookie:", cvalue);
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     var expires = "expires="+d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
+    document.cookie = cookieName + "=" + cvalue + "; " + expires;
 }
 
 // get cookie and value
@@ -55,7 +56,7 @@ var checkCookie = function() {
     var optimus_cookie=getCookie(cookieName);
     if (optimus_cookie!="") {
         //if cookie exists check if transaction is still valid
-        if(check_alive(optimus_cookie)){
+        if(checkAlive(optimus_cookie)){
             console.log("Cookie and alive")
             return true;
         } else {
